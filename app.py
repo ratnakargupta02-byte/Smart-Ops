@@ -1,23 +1,18 @@
 import os
 import requests
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__)
-
-# Allow the local dashboard to access the API
 CORS(app)
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 GITHUB_REPO = "ratnakargupta02-byte/Smart-Ops"
 
 
 @app.route("/")
 def home():
-    return jsonify({
-        "message": "Automated Deployment Platform",
-        "project": "Smart Ops",
-        "status": "running"
-    })
+    return send_from_directory(BASE_DIR, "dashboard.html")
 
 
 @app.route("/health")
@@ -32,7 +27,11 @@ def deployments():
     url = f"https://api.github.com/repos/{GITHUB_REPO}/commits"
 
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(
+            url,
+            headers={"Accept": "application/vnd.github+json"},
+            timeout=10
+        )
         response.raise_for_status()
 
         commits = response.json()[:10]
@@ -59,10 +58,20 @@ def deployments():
         }), 502
 
 
+@app.route("/api/status")
+def status():
+    return jsonify({
+        "application": "Smart Ops",
+        "status": "running",
+        "health": "healthy",
+        "deployment_platform": "Render",
+        "container_platform": "Docker"
+    })
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 5000)),
         debug=False
     )
-    
