@@ -6,9 +6,8 @@ def test_home():
     response = client.get("/")
 
     assert response.status_code == 200
-    data = response.get_json()
-    assert data["project"] == "Smart Ops"
-    assert data["status"] == "running"
+    assert "text/html" in response.content_type
+    assert b"Smart Ops Dashboard" in response.data
 
 
 def test_health():

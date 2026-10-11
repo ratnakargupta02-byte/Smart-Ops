@@ -1,4 +1,4 @@
-import os
+﻿import os
 import requests
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
@@ -17,8 +17,17 @@ def home():
 
 @app.route("/health")
 def health():
+    return jsonify({"status": "healthy"})
+
+
+@app.route("/api/status")
+def status():
     return jsonify({
-        "status": "healthy"
+        "application": "Smart Ops",
+        "status": "running",
+        "health": "healthy",
+        "deployment_platform": "Render",
+        "container_platform": "Docker"
     })
 
 
@@ -35,7 +44,6 @@ def deployments():
         response.raise_for_status()
 
         commits = response.json()[:10]
-
         history = []
 
         for commit in commits:
@@ -56,17 +64,6 @@ def deployments():
         return jsonify({
             "error": "Unable to fetch GitHub history"
         }), 502
-
-
-@app.route("/api/status")
-def status():
-    return jsonify({
-        "application": "Smart Ops",
-        "status": "running",
-        "health": "healthy",
-        "deployment_platform": "Render",
-        "container_platform": "Docker"
-    })
 
 
 if __name__ == "__main__":
