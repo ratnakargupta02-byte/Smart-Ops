@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Ops Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b1120;
+            color: #e5e7eb;
+        }
+
+        header {
+            padding: 24px 6%;
+            border-bottom: 1px solid #263247;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #60a5fa;
+            font-size: 26px;
+        }
+
+        header p {
+            color: #94a3b8;
+            margin-top: 6px;
+            font-size: 13px;
+        }
+
+        .live {
+            color: #4ade80;
+            background: #123322;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        main {
+            max-width: 1250px;
+            margin: 35px auto;
+            padding: 0 24px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #94a3b8;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card, .panel {
+            background: #111c2e;
+            border: 1px solid #263247;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .card h3 {
+            font-size: 27px;
+            margin: 18px 0 8px;
+        }
+
+        .green {
+            color: #4ade80;
+        }
+
+        .blue {
+            color: #60a5fa;
+        }
+
+        .purple {
+            color: #c084fc;
+        }
+
+        .yellow {
+            color: #facc15;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+        }
+
+        .panel h3 {
+            margin-bottom: 22px;
+        }
+
+        .service {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 17px 0;
+            border-bottom: 1px solid #263247;
+            gap: 10px;
+        }
+
+        .service:last-child {
+            border-bottom: none;
+        }
+
+        .service p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .badge {
+            background: #123322;
+            color: #4ade80;
+            padding: 7px 11px;
+            border-radius: 7px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .check-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        .check-btn:hover {
+            background: #1d4ed8;
+        }
+
+        #health-result {
+            margin-top: 15px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .history {
+            margin-top: 25px;
+        }
+
+        .history-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 17px 0;
+            border-bottom: 1px solid #263247;
+            font-size: 14px;
+        }
+
+        .history-row:last-child {
+            border-bottom: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome h2 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div>
+            <h1>⚡ Smart Ops</h1>
+            <p>Automated Deployment & Monitoring Platform</p>
+        </div>
+
+        <div class="live">● System Dashboard</div>
+    </header>
+
+    <main>
+
+        <section class="welcome">
+            <h2>Dashboard Overview</h2>
+            <p>Monitor your application and deployment infrastructure.</p>
+        </section>
+
+        <section class="cards">
+
+            <div class="card">
+                <p>Application Status</p>
+                <h3 class="green">LIVE</h3>
+                <p>Cloud deployment</p>
+            </div>
+
+            <div class="card">
+                <p>Health Status</p>
+                <h3 class="green" id="health-status">Healthy</h3>
+                <p>Application health check</p>
+            </div>
+
+            <div class="card">
+                <p>CI/CD Pipeline</p>
+                <h3 class="blue">Enabled</h3>
+                <p>GitHub Actions</p>
+            </div>
+
+            <div class="card">
+                <p>Hosting Cost</p>
+                <h3 class="purple">$0</h3>
+                <p>Render Free Plan</p>
+            </div>
+
+        </section>
+
+        <section class="content">
+
+            <div class="panel">
+                <h3>Infrastructure Status</h3>
+
+                <div class="service">
+                    <div>
+                        <strong>Flask Application</strong>
+                        <p>Web application</p>
+                    </div>
+                    <span class="badge">● Live</span>
+                </div>
+
+                <div class="service">
+                    <div>
+                        <strong>Docker</strong>
+                        <p>Containerization</p>
+                    </div>
+                    <span class="badge">● Ready</span>
+                </div>
+
+                <div class="service">
+                    <div>
+                        <strong>GitHub Actions</strong>
+                        <p>Automated CI/CD pipeline</p>
+                    </div>
+                    <span class="badge">● Enabled</span>
+                </div>
+
+                <div class="service">
+                    <div>
+                        <strong>Health Endpoint</strong>
+                        <p>Application monitoring</p>
+                    </div>
+                    <span class="badge" id="health-badge">● Healthy</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>Live Health Check</h3>
+
+                <p style="color:#94a3b8; line-height:1.7;">
+                    Check whether your deployed Smart Ops application
+                    is responding correctly.
+                </p>
+
+                <button class="check-btn" onclick="checkHealth()">
+                    Check Application
+                </button>
+
+                <p id="health-result">Ready to check the application.</p>
+            </div>
+
+        </section>
+
+        <section class="panel history">
+            <h3>Deployment Information</h3>
+
+            <div class="history-row">
+                <span>Deployment Platform</span>
+                <span>Render</span>
+            </div>
+
+            <div class="history-row">
+                <span>Container Platform</span>
+                <span>Docker</span>
+            </div>
+
+            <div class="history-row">
+                <span>Source Repository</span>
+                <span>GitHub</span>
+            </div>
+
+            <div class="history-row">
+                <span>Production Server</span>
+                <span>Gunicorn</span>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        Smart Ops · Automated Deployment & Monitoring Platform
+    </footer>
+
+    <script>
+        async function checkHealth() {
+            const result = document.getElementById("health-result");
+            const status = document.getElementById("health-status");
+            const badge = document.getElementById("health-badge");
+
+            result.textContent = "Checking application...";
+            
+            try {
+                const response = await fetch(
+                    "https://smart-ops-b0dj.onrender.com/health"
+                );
+
+                if (!response.ok) {
+                    throw new Error("Application returned an error");
+                }
+
+                const data = await response.json();
+
+                if (data.status === "healthy") {
+                    result.textContent = "Application is responding successfully.";
+                    status.textContent = "Healthy";
+                    status.className = "green";
+                    badge.textContent = "● Healthy";
+                } else {
+                    throw new Error("Unexpected health status");
+                }
+
+            } catch (error) {
+                result.textContent =
+                    "Health check failed. The service may be starting or unavailable.";
+                status.textContent = "Check Failed";
+                status.className = "yellow";
+                badge.textContent = "● Check Failed";
+            }
+        }
+    </script>
+    <section class="panel history">
+    <h3>Recent GitHub Commits</h3>
+    <div id="deployment-history">
+        Loading GitHub history...
+    </div>
+</section>
+
+<script>
+async function loadDeploymentHistory() {
+    const container = document.getElementById("deployment-history");
+
+    try {
+        const response = await fetch(
+            "https://smart-ops-b0dj.onrender.com/api/deployments"
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to fetch commits");
+        }
+
+        const data = await response.json();
+
+        container.innerHTML = "";
+
+        data.deployments.forEach(commit => {
+            const row = document.createElement("div");
+            row.className = "history-row";
+
+            const details = document.createElement("div");
+            const message = document.createElement("strong");
+            message.textContent = commit.message;
+
+            const author = document.createElement("p");
+            author.style.color = "#94a3b8";
+            author.style.marginTop = "6px";
+            author.textContent =
+                commit.author + " · " +
+                new Date(commit.date).toLocaleString();
+
+            details.appendChild(message);
+            details.appendChild(author);
+
+            const link = document.createElement("a");
+            link.href = commit.url;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "View";
+            link.style.color = "#60a5fa";
+
+            row.appendChild(details);
+            row.appendChild(link);
+            container.appendChild(row);
+        });
+
+    } catch (error) {
+        container.textContent =
+            "Unable to load GitHub history. Please try again.";
+    }
+}
+
+loadDeploymentHistory();
+</script>
+
+</body>
+</html>

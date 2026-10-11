@@ -1,3 +1,5 @@
 Flask
 pytest
 gunicorn
+requests
+flask-cors
